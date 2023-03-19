@@ -1,0 +1,9 @@
+{
+	"sources": [
+		{
+			"name": "functions",
+			"type": "local:file",
+			"path": "/logs/app.log"
+		}
+	]
+}
