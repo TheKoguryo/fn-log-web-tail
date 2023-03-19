@@ -16,24 +16,36 @@ Used to launch two process in single container.
 ## How to use
 
 1. Build a image and push to your image registry(ex, OCIR)
-```
-docker build -t fn-log-web-tail:1.0 .
-docker tag fn-log-web-tail:1.0 <region-key>.ocir.io/<tenacy-namespace>/fn-log-web-tail:1.0
-```
+
+   ```
+   docker build -t fn-log-web-tail:1.0 .
+   docker tag fn-log-web-tail:1.0 <region-key>.ocir.io/<tenacy-namespace>/fn-log-web-tail:1.0
+   ```
 
 2. Launch container using OCI Container Instance
 
-3. Update syslog-url of your OCI Function App
-```
-fn update app oci-hol-fn-app --syslog-url tcp://<container-intance-ip>:30000
-```
+3. Open two ports(4444, 30000) in your security list of the container instance.
 
-4. If you enable oci logging in your fn app, disable it.
+4. Update syslog-url of your OCI Function App
 
-5. Invoke your function - Ex, hello-python function
-```
-fn invoke oci-hol-fn-app hello-python
-```
+   ```
+   fn update app oci-hol-fn-app --syslog-url tcp://<container-intance-ip>:30000
+   ```
 
-6. Function logs in your container instance.
+5. If you enable oci logging in your fn app, disable it.
 
+6. Invoke your function - hello-python function
+
+   ```fn invoke [app-name] [function-name]```
+
+   ```
+   fn invoke oci-hol-fn-app hello-python
+   ```
+
+6. You can see your function log without any delay in your container instance.
+
+   - http://`<container-intance-ip>`:4444
+   
+   - Select **functions** as a source
+
+   ![](images/fn-log-web-tail.png)
