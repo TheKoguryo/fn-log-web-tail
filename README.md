@@ -6,8 +6,8 @@
 - https://blogs.oracle.com/developers/post/simple-serverless-logging-for-oracle-functions
 - [simple-socket-fn-logger](https://github.com/recursivecodes/simple-socket-fn-logger)
 
-### Web-Based Tail
-- [Web tail](https://github.com/mishankov/web-tail)
+### Web UI for viewing logs
+- [log-viewer](https://github.com/sevdokimov/log-viewer)
 
 ### Supervisor: A Process Control System
 Used to launch two process in single container.
@@ -15,16 +15,30 @@ Used to launch two process in single container.
 
 ## How to use
 
-1. Build a image and push to your image registry(ex, OCIR)
+1. Generate a password in MD5 format for the viewer user. If the password is 2,
 
    ```
-   docker build -t fn-log-web-tail:1.0 .
-   docker tag fn-log-web-tail:1.0 <region-key>.ocir.io/<tenacy-namespace>/fn-log-web-tail:1.0
+   $ md5 -s "2"
+   c81e728d9d4c2f636f067f89cc14862c
    ```
 
 2. Launch container using OCI Container Instance
 
-3. Open two ports(4444, 30000) in your security list of the container instance.
+   - Container image
+
+      * Registry hostname: `ghcr.io`
+      * Repository: `thekoguryo/fn-log-web-tail`
+      * Tag: `1.1`
+      * Registry credentials type: `None`
+
+   - Environmental variables
+
+      * Key: `PASSWORD_MD5`
+      * Value: ex, `c81e728d9d4c2f636f067f89cc14862c`
+      * Container Instances once created are not mutable. To change the environment variables, you would need to recreate the CI
+
+
+3. Open two ports(8881, 30000) in your security list of the container instance.
 
 4. Update syslog-url of your OCI Function App
 
@@ -44,8 +58,10 @@ Used to launch two process in single container.
 
 6. You can see your function log without any delay in your container instance.
 
-   - http://`<container-intance-ip>`:4444
+   - http://`<container-intance-ip>`:8111/log?log=functions
+
+   - Login as `viewer` username
    
-   - Select **functions** as a source
+   - OCI Functions log in fn-log-web-tail
 
    ![](images/fn-log-web-tail.png)

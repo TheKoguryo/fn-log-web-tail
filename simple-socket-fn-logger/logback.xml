@@ -5,11 +5,11 @@
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>%cyan(%d{MMM dd HH:mm:ss.SSS}) - %msg%n</pattern>
+            <pattern>%msg%n</pattern>
         </encoder>
     </appender>
 
-    <property name="LOG-FILE" value="logs/app.log"/>
+    <property name="LOG-FILE" value="/logs/functions.log"/>
 
     <appender name="FILE-ENGINE" class="ch.qos.logback.core.FileAppender">
         <file>${LOG-FILE}</file>
@@ -17,7 +17,7 @@
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>%cyan(%d{MMM dd HH:mm:ss.SSS}) - %msg%n</pattern>
+            <pattern>%msg%n</pattern>
         </encoder>
     </appender>
 
