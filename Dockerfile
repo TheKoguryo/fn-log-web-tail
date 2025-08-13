@@ -1,6 +1,7 @@
 FROM ubuntu:24.04
 
-RUN apt-get update && apt-get install -y supervisor
+RUN apt-get update
+RUN apt-get install -y supervisor
 RUN mkdir -p /var/log/supervisor
 
 RUN apt-get update -qq
@@ -20,6 +21,18 @@ RUN unzip log-viewer-1.0.11.zip
 RUN mv log-viewer-1.0.11 log-viewer
 COPY log-viewer/config.conf /log-viewer/
 COPY log-viewer/logviewer.sh /log-viewer/
+
+RUN mkdir temp
+WORKDIR /temp
+RUN jar xf /log-viewer/lib/log-viewer-frontend-1.0.11.jar
+COPY log-viewer/d2coding.css log-viewer-web/
+COPY log-viewer/index.html log-viewer-web/
+COPY log-viewer/main.a494d4a6ae05f683.js log-viewer-web/
+RUN jar cf log-viewer-frontend-1.0.11.jar -C . .
+RUN cp log-viewer-frontend-1.0.11.jar /log-viewer/lib/
+RUN rm -rf /temp
+
+WORKDIR /
 
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
