@@ -28,6 +28,7 @@ RUN jar xf /log-viewer/lib/log-viewer-frontend-1.0.11.jar
 COPY log-viewer/d2coding.css log-viewer-web/
 COPY log-viewer/index.html log-viewer-web/
 COPY log-viewer/main.a494d4a6ae05f683.js log-viewer-web/
+COPY log-viewer/styles.662fbe794f1a8626.css log-viewer-web/
 RUN jar cf log-viewer-frontend-1.0.11.jar -C . .
 RUN cp log-viewer-frontend-1.0.11.jar /log-viewer/lib/
 RUN rm -rf /temp
